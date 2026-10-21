@@ -1,0 +1,4 @@
+[tools]
+hk = "2.8.0"
+pkl = "latest"
+yamllint = "latest"

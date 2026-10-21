@@ -1,0 +1,23 @@
+---
+version: '3'
+
+tasks:
+  pr:
+    desc: Push the current branch and create a pull request
+    vars:
+      DRAFT: '{{.DRAFT | default "false"}}'
+    preconditions:
+      - sh: command -v gh
+        msg: GitHub CLI is required
+      - sh: gh auth status
+        msg: Authenticate with gh auth login
+      - sh: test -n "$(git branch --show-current)"
+        msg: You must be on a Git branch
+    cmds:
+      - git push -u origin HEAD
+      - |
+        if [ "{{.DRAFT}}" = "true" ]; then
+          gh pr create --fill --draft
+        else
+          gh pr create --fill
+        fi

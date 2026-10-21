@@ -1,0 +1,15 @@
+amends "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+  ["yamllint"] = Builtins.yamllint
+}
+
+hooks {
+  ["pre-commit"] {
+    steps = linters
+  }
+  ["check"] {
+    steps = linters
+  }
+}
