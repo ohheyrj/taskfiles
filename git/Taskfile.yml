@@ -17,3 +17,26 @@ tasks:
         msg: git is required
     cmds:
       - git clean -fdX
+
+  branches:clean:
+    desc: Delete local branches already merged into the current branch
+    preconditions:
+      - sh: command -v git
+        msg: git is required
+    cmds:
+      - |
+        current="$(git branch --show-current)"
+        git for-each-ref \
+          --merged HEAD \
+          --format='%(refname:short)' \
+          refs/heads |
+        while IFS= read -r branch; do
+          case "$branch" in
+            "$current"|main|master|develop)
+              ;;
+            *)
+              git branch -d "$branch"
+              ;;
+          esac
+        done
+      - git fetch --prune
