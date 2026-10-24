@@ -1,0 +1,19 @@
+---
+version: "3"
+
+tasks:
+  files:dry:
+    desc: List all files that are listed in .gitignore and would be deleted
+    preconditions:
+      - sh: command -v git
+        msg: git is required
+    cmds:
+      - git clean -ndX
+
+  files:clean:
+    desc: Delete all files that are listed in .gitignore
+    preconditions:
+      - sh: command -v git
+        msg: git is required
+    cmds:
+      - git clean -fdX
